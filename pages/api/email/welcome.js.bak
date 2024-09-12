@@ -1,0 +1,38 @@
+import nodemailer from 'nodemailer';
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
+  const { email, name } = req.body;
+
+  if (!email || !name) {
+    return res.status(400).json({ message: 'Email and name are required' });
+  }
+
+  try {
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      secure: process.env.EMAIL_SECURE === 'true',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_FROM,
+      to: email,
+      subject: 'Welcome to Our App!',
+      text: `Hello ${name},\n\nWelcome to our app! We're excited to have you on board.\n\nBest regards,\nThe App Team`,
+      html: `<p>Hello ${name},</p><p>Welcome to our app! We're excited to have you on board.</p><p>Best regards,<br>The App Team</p>`,
+    });
+
+    res.status(200).json({ message: 'Welcome email sent successfully' });
+  } catch (error) {
+    console.error('Error sending welcome email:', error);
+    res.status(500).json({ message: 'Error sending welcome email' });
+  }
+}
