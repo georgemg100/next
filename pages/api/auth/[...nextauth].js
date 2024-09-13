@@ -22,6 +22,17 @@ function generateChecksum(str) {
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
+  logger: {
+    error(code, ...message) {
+      log.error(code, message)
+    },
+    warn(code, ...message) {
+      log.warn(code, message)
+    },
+    debug(code, ...message) {
+      log.debug(code, message)
+    },
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
@@ -32,6 +43,7 @@ export default NextAuth({
     clientSecret: process.env.GITHUB_SECRET
     })
   ],
+  
   database: process.env.DATABASE_URL,
   secret: process.env.NEXTAUTH_SECRET,
   session: {
