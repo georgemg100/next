@@ -24,13 +24,13 @@ export default NextAuth({
   adapter: PrismaAdapter(prisma),
   logger: {
     error(code, ...message) {
-      log.error(code, message)
+      console.log(code, message)
     },
     warn(code, ...message) {
-      log.warn(code, message)
+      console.log(code, message)
     },
     debug(code, ...message) {
-      log.debug(code, message)
+      console.log(code, message)
     },
   },
   providers: [
