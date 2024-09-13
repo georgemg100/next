@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
+import crypto from 'crypto'
 
 // Initialize Prisma Client
 const prisma = new PrismaClient();
