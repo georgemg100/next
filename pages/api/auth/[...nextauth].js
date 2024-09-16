@@ -1,12 +1,15 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import EmailProvider from "next-auth/providers/email"
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
+import prisma from '../../../lib/prisma';  // Adjust the path as needed
 import crypto from 'crypto'
+import { addDays } from 'date-fns';
 
 // Initialize Prisma Client
-const prisma = new PrismaClient();
+//const prisma = new PrismaClient();
 
 function generateLicenseKey() {
   const prefix = 'LIC';
@@ -21,7 +24,7 @@ function generateChecksum(str) {
   return crypto.createHash('md5').update(str).digest('hex').slice(0, 4).toUpperCase();
 }
 
-export default NextAuth({
+export const authOptions = {
   adapter: PrismaAdapter(prisma),
   logger: {
     error(code, ...message) {
@@ -42,7 +45,18 @@ export default NextAuth({
     GitHubProvider({
     clientId: process.env.GITHUB_ID,
     clientSecret: process.env.GITHUB_SECRET
-    })
+    }),
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_FROM,
+    }),
   ],
   
   database: process.env.DATABASE_URL,
@@ -64,12 +78,18 @@ export default NextAuth({
       // Add user ID to the session
       if (!user.licenseKey) {
         const licenseKey = generateLicenseKey();
+        const subscriptionExpiryDate = addDays(new Date(), 3);
+
         await prisma.user.update({
           where: { id: user.id },
-          data: { licenseKey },
+          data: { licenseKey, subscriptionExpiryDate },
         });
         user.licenseKey = licenseKey;
+        user.subscriptionExpiryDate = subscriptionExpiryDate;
       }
+      session.user.subscriptionId = user.subscriptionId
+      session.user.subscriptionStatus = user.subscriptionStatus;
+      session.user.subscriptionExpiryDate = user.subscriptionExpiryDate;
       session.user.licenseKey = user.licenseKey;
       session.userId = user.id;
       return session;
@@ -85,7 +105,7 @@ export default NextAuth({
     signIn: '/auth/signin',
     error: '/auth/error',
   },
-});
+};
 
 // Error handling for database connection
 process.on('unhandledRejection', (reason, promise) => {
@@ -93,3 +113,4 @@ process.on('unhandledRejection', (reason, promise) => {
   // Handle the error or exit the process
 });
 
+export default NextAuth(authOptions);
