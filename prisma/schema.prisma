@@ -20,7 +20,7 @@ model User {
   sessions           Session[]
   licenseKey         String?   @unique
   subscriptionStatus String?   @default("inactive")
-  subscriptionId     String?
+  subscriptionId     String?   @unique
   subscriptionExpiryDate DateTime?
 }
 

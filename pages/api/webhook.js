@@ -15,8 +15,14 @@ export const config = {
 async function handleCheckoutSessionCompleted(session) {
   const userId = session.client_reference_id;
         const subscriptionId = session.subscription;
-        const expiry = new Date(session.expires_at * 1000)
-        console.log('expiry', expiry)
+        //const expiry = new Date(session.current_period_end * 1000)
+        // Fetch the subscription details
+      const subscription = await stripe.subscriptions.retrieve(session.subscription);
+      
+      // The current_period_end is a Unix timestamp
+      const expirationDate = new Date(subscription.current_period_end * 1000);
+
+        console.log('expiry', expirationDate)
         console.log('session', JSON.stringify(session))
         console.log('userId from event session', userId)
         console.log('subscriptionId from event session', subscriptionId)
@@ -26,7 +32,7 @@ async function handleCheckoutSessionCompleted(session) {
           data: {
             subscriptionStatus: 'active',
             subscriptionId: subscriptionId,
-            subscriptionExpiryDate: expiry
+            subscriptionExpiryDate: expirationDate
           },
         });
         //await sendSubscriptionConfirmationEmail(updatedUser.email, "")
@@ -35,6 +41,43 @@ async function handleCheckoutSessionCompleted(session) {
   //   subject: 'Subscription Confirmed',
   //   text: `Thank you for subscribing! Your subscription is now active.`,
   // });
+}
+
+async function handleCustomerSubscriptionAutoRenewed(paymentSucceeded) {
+  // const userId = session.client_reference_id;
+  // const subscriptionId = session.subscription;
+  // const expiry = new Date(session.expires_at * 1000)
+  // console.log('expiry', expiry)
+  // console.log('session', JSON.stringify(session))
+  // console.log('userId from event session', userId)
+  // console.log('subscriptionId from event session', subscriptionId)
+  // // Update user's subscription status in the database
+  console.log(paymentSucceeded)
+  if (paymentSucceeded.subscription) {
+    try {
+      // Fetch the subscription details
+      const subscription = await stripe.subscriptions.retrieve(paymentSucceeded.subscription);
+      
+      // The current_period_end is a Unix timestamp
+      const expirationDate = new Date(subscription.current_period_end * 1000);
+      
+      console.log(`Subscription renewed successfully. New expiration date: ${expirationDate}`);
+      console.log('subscription id: ' + subscription.id)
+      // Here you can update your database, send emails, etc.
+      const updatedUser = await prisma.user.update({
+        where: { subscriptionId: subscription.id },
+        data: {
+          subscriptionStatus: 'active',
+          subscriptionId: subscription.id,
+          subscriptionExpiryDate: expirationDate
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching subscription details:', error);
+    }
+  }
+
+  
 }
 
 async function handleCustomerSubscriptionDeleted(subscription) {
@@ -71,6 +114,8 @@ export default async function handler(req, res) {
       case 'customer.subscription.deleted':
         await handleCustomerSubscriptionDeleted(event.data.object);
         break;
+      case 'invoice.paid':
+        await handleCustomerSubscriptionAutoRenewed(event.data.object);
       default:
         console.log(`Unhandled event type ${event.type}`);
     }
