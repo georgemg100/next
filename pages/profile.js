@@ -3,21 +3,35 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import { ClipboardIcon, ClipboardCheckIcon } from '@heroicons/react/outline';
+import axios from 'axios';
 
 export default function Profile() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [licenseKey, setLicenseKey] = useState('');
   const [copied, setCopied] = useState(false);
+  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/');
     } else if (session?.user) {
       // Fetch license key from API or use a placeholder
+      fetchSubscriptionStatus();
       setLicenseKey(session.user.licenseKey);
     }
   }, [session, status, router]);
+
+  const fetchSubscriptionStatus = async () => {
+    try {
+      const response = await axios.get('/api/check-free-trial');
+      console.log(response.data.status)
+      console.log(response.data.expiresIn)
+      setSubscriptionStatus(response.data.status + " " + response.data.expiresIn);
+    } catch (error) {
+      console.error('Error fetching free trial status:', error);
+    }
+  };
 
   const copyToClipboard = async () => {
     try {
@@ -69,6 +83,10 @@ export default function Profile() {
                     </button>
                     {copied && <span className="ml-2 text-sm text-green-600">Copied!</span>}
                   </dd>
+                </div>
+                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">Subscription Status</dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{subscriptionStatus}</dd>
                 </div>
               </dl>
             </div>
