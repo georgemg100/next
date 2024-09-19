@@ -30,10 +30,12 @@ const Navbar = () => {
               </button>
             </>
           ) : (
-            <Link href="/api/auth/signin" className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded transition duration-300">
-              Sign In
-            </Link>
-          )}
+            <div></div>
+            // <Link href="/api/auth/signin" className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded transition duration-300">
+            //   Sign In
+            // </Link>
+          )
+          }
         </div>
       </div>
     </nav>
