@@ -16,6 +16,9 @@ const Navbar = () => {
           </Link>
           {session ? (
             <>
+              <Link href="https://github.com/georgemg100" className="hover:text-gray-300 transition duration-300">
+                Download
+              </Link>
               <Link href="/profile" className="hover:text-gray-300 transition duration-300">
                 Profile
               </Link>
