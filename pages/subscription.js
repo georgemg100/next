@@ -1,98 +1,118 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { loadStripe } from '@stripe/stripe-js';
 import { useRouter } from 'next/router';
-
-// Initialize Stripe
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+import Layout from '../components/Layout';
+import { loadStripe } from '@stripe/stripe-js';
 
 export default function Subscription() {
   const { data: session, update: updateSession } = useSession();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const router = useRouter();
+  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
   const [message, setMessage] = useState(null);
+  //console.log(session)
+  // useEffect(() => {
+  //   if (status === 'unauthenticated') {
+  //     router.push('/');
+  //   } else if (status === 'authenticated') {
+  //     fetchSubscriptionStatus();
+  //   }
+  // }, [status, router]);
 
-  // Add this useEffect to log the message state
-  useEffect(() => {
-    console.log('Message updated:', message);
-  }, [message]);
+  const fetchSubscriptionStatus = async () => {
+    try {
+      //const response = await fetch('/api/subscription');
+      //const data = await response.json();
+      //await updateSession()
 
-  const handleSubscribe = async (endpoint) => {
-    if (!session) {
-      setError('You must be logged in to subscribe.');
-      return;
+      //setSubscriptionStatus(data.subscriptionStatus);
+    } catch (error) {
+      console.error('Error fetching subscription status:', error);
+      setError('Failed to fetch subscription status');
     }
+  };
 
+  const handleSubscribe = async () => {
     setLoading(true);
     setError(null);
     setMessage(null);
-
     try {
-      const response = await fetch('/api/' + endpoint, {
+      const response = await fetch('/api/subscription', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          userId: session.user.id,
-        }),
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to create checkout session');
-      }
-      
-      if(endpoint === 'subscription') {
-        const { sessionId } = await response.json();
-        const stripe = await stripePromise;
-        console.log('sessionId: ' + JSON.stringify(sessionId))
-        const { error } = await stripe.redirectToCheckout({ sessionId });
-        if (error) {
-          throw error;
-        }
-      } else if(endpoint === 'unsubscribe') {
-        const { message } = await response.json();
-        console.log('message: ' + message)
-        setMessage(message);
-        // Update the session to reflect the changes
-        await updateSession();
-        
-        router.push('/cancellation-confirmation');
-
-      }
-
-      
-    } catch (err) {
-      setError(err.message);
+      const { sessionId } = await response.json();
+      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+      await stripe.redirectToCheckout({ sessionId });
+    } catch (error) {
+      console.error('Subscription error:', error);
+      setError('Failed to initiate subscription. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  if (!session) {
-    return <p>Please log in to access subscription options.</p>;
-  }
+  const handleUnsubscribe = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/unsubscribe', {
+        method: 'POST',
+      });
+      if (response.ok) {
+        //setSubscriptionStatus('inactive');
+        const { message } = await response.json();
+        console.log('message: ' + message)
+        setMessage(message);
+        await updateSession();
+      } else {
+        throw new Error('Failed to unsubscribe');
+      }
+    } catch (error) {
+      console.error('Unsubscribe error:', error);
+      setError('Failed to unsubscribe. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // if (status === 'loading') {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
-    <div>
-      <h1>Subscription Page</h1>
-      {session.user.subscriptionStatus === 'active' ? (
-        <div>
-          <p className="text-green-600 font-bold">Active</p>
-          <button onClick={() => handleSubscribe('unsubscribe')}>
-            Unsubscribe
-          </button>
-        </div>
-      ) : (
-        <div>
-          <button onClick={() => handleSubscribe('subscription')} disabled={loading}>
-            {loading ? 'Processing...' : 'Subscribe Now'}
-          </button>
-        </div>
-      )}
-      {message && <p>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
+    <Layout>
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-6">Subscription Management</h1>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {session?.user?.subscriptionStatus === 'active' ? (
+          <div>
+            <p className="mb-4">Your subscription is currently active. Navigate to your profile page to view your license key</p>
+            <button
+              onClick={handleUnsubscribe}
+              disabled={loading}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 disabled:opacity-50"
+            >
+              {loading ? 'Processing...' : 'Unsubscribe'}
+            </button>
+          </div>
+        ) : (
+          <div>
+            <p className="mb-4">You are not currently subscribed.</p>
+            <button
+              onClick={handleSubscribe}
+              disabled={loading}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+            >
+              {loading ? 'Processing...' : 'Subscribe Now'}
+            </button>
+          </div>
+        )}
+        {message && <p>{message}</p>}
+      </div>
+    </Layout>
   );
 }
