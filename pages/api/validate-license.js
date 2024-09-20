@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     const currentDate = new Date();
 
     // Compare current date with subscription expiry date
-    if (user.subscriptionExpiry && currentDate < new Date(user.subscriptionExpiry)) {
+    if (user.subscriptionExpiryDate && currentDate < new Date(user.subscriptionExpiryDate)) {
       return res.status(200).json({ valid: true, active: true });
     } else {
       return res.status(200).json({ valid: true, active: false });
