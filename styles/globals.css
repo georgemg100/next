@@ -43,3 +43,69 @@
 
 /* Add any additional global styles below */
 
+/* Modern and stylish design elements */
+.hero-section {
+  @apply bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-20;
+}
+
+.hero-content {
+  @apply max-w-4xl mx-auto text-center;
+}
+
+.hero-title {
+  @apply text-4xl md:text-5xl font-bold mb-6;
+}
+
+.hero-subtitle {
+  @apply text-xl md:text-2xl mb-8;
+}
+
+.cta-button {
+  @apply bg-white text-blue-600 font-semibold py-3 px-8 rounded-full hover:bg-blue-100 transition duration-300;
+}
+
+.feature-section {
+  @apply py-16 bg-gray-50;
+}
+
+.feature-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-8;
+}
+
+.feature-card {
+  @apply bg-white p-6 rounded-lg shadow-md;
+}
+
+.feature-icon {
+  @apply text-3xl text-blue-500 mb-4;
+}
+
+.feature-title {
+  @apply text-xl font-semibold mb-2;
+}
+
+.feature-description {
+  @apply text-gray-600;
+}
+
+
+/* Standardized button styles */
+.btn {
+  @apply font-semibold py-2 px-4 rounded shadow transition duration-150 ease-in-out;
+}
+
+.btn-primary {
+  @apply bg-blue-500 text-white border border-blue-500 hover:bg-blue-600;
+}
+
+.btn-secondary {
+  @apply bg-green-500 text-white border border-green-500 hover:bg-green-600;
+}
+
+.btn-social {
+  @apply bg-white text-gray-700 border border-gray-300 hover:bg-gray-50;
+}
+
+.btn-github {
+  @apply bg-gray-800 text-white border border-gray-800 hover:bg-gray-700;
+}

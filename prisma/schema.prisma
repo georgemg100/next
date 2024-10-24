@@ -22,6 +22,8 @@ model User {
   subscriptionStatus String?   @default("inactive")
   subscriptionId     String?   @unique
   subscriptionExpiryDate DateTime?
+  tempToken          String?   @unique
+  password           String?
 }
 
 model Account {

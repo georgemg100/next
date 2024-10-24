@@ -1,36 +1,71 @@
-import { useSession } from 'next-auth/react'
-import Layout from '../components/Layout'
-import LoginButtons from '../components/LoginButtons'
+import Head from 'next/head';
+import Layout from '../components/Layout';
+import LoginButtons from '../components/LoginButtons';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function Home() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-        <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-          {/* <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div> */}
-          <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-            <div className="max-w-md mx-auto">
-              <div>
-                <h1 className="text-2xl font-semibold">Welcome to Anthill Coder!</h1>
-              </div>
-              <div className="divide-y divide-gray-200">
-                <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                  {session ? (
-                    <p>You are signed in as {session.user.email}</p>
-                  ) : (
-                    <>
-                      <p>You are not signed in</p>
-                      <LoginButtons />
-                    </>
-                  )}
-                </div>
-              </div>
+      <Head>
+        <title>Anthill Coder - Home</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      {!session && (
+        <div className="hero-section bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-20">
+          <div className="hero-content max-w-4xl mx-auto text-center px-4">
+            <h1 className="hero-title text-4xl md:text-5xl font-bold mb-6">Welcome to Anthill Coder</h1>
+            <p className="hero-subtitle text-xl md:text-2xl mb-8">Empowering developers with cutting-edge tools and resources</p>
+            <Link href="/get-started" className="cta-button bg-white text-blue-600 font-semibold py-3 px-8 rounded-full hover:bg-blue-100 transition duration-300">
+              Get Started
+            </Link>
+          </div>
+        </div>
+      )}
+
+      <div className="text-center mt-8">
+        {loading ? (
+          <div>Loading...</div>
+        ) : session ? (
+          <div>
+            <p className="mb-4">Welcome, {session.user.email}!</p>
+            <Link href="/profile" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              View Profile
+            </Link>
+          </div>
+        ) : (
+          <div>
+            <p className="mb-4">Please sign in to access your account.</p>
+            <LoginButtons />
+          </div>
+        )}
+      </div>
+
+      {!session && (
+        <div className="feature-section py-16 bg-gray-50">
+          <div className="feature-grid max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+            <div className="feature-card bg-white p-6 rounded-lg shadow-md">
+              <div className="feature-icon text-3xl text-blue-500 mb-4">🚀</div>
+              <h3 className="feature-title text-xl font-semibold mb-2">Boost Productivity</h3>
+              <p className="feature-description text-gray-600">Access powerful tools to streamline your development process.</p>
+            </div>
+            <div className="feature-card bg-white p-6 rounded-lg shadow-md">
+              <div className="feature-icon text-3xl text-blue-500 mb-4">🌐</div>
+              <h3 className="feature-title text-xl font-semibold mb-2">Stay Connected</h3>
+              <p className="feature-description text-gray-600">Join a community of passionate developers and share knowledge.</p>
+            </div>
+            <div className="feature-card bg-white p-6 rounded-lg shadow-md">
+              <div className="feature-icon text-3xl text-blue-500 mb-4">📚</div>
+              <h3 className="feature-title text-xl font-semibold mb-2">Continuous Learning</h3>
+              <p className="feature-description text-gray-600">Access a wealth of resources to keep your skills sharp.</p>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </Layout>
-  )
+  );
 }

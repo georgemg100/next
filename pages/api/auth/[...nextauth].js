@@ -1,20 +1,18 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
-import EmailProvider from "next-auth/providers/email"
+import EmailProvider from "next-auth/providers/email";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
-import prisma from '../../../lib/prisma';  // Adjust the path as needed
-import crypto from 'crypto'
+import prisma from '../../../lib/prisma';
+import crypto from 'crypto';
 import { addDays } from 'date-fns';
-
-// Initialize Prisma Client
-//const prisma = new PrismaClient();
+import bcrypt from 'bcryptjs';
 
 function generateLicenseKey() {
   const prefix = 'LIC';
-  const timestamp = Date.now().toString(36).slice(-6); // Last 6 chars of timestamp in base36
-  const randomPart = crypto.randomBytes(8).toString('hex').toUpperCase(); // 16 characters
+  const timestamp = Date.now().toString(36).slice(-6);
+  const randomPart = crypto.randomBytes(8).toString('hex').toUpperCase();
   const raw = `${prefix}-${timestamp}-${randomPart}`;
   const checksum = generateChecksum(raw);
   return `${raw}-${checksum}`;
@@ -26,25 +24,14 @@ function generateChecksum(str) {
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
-  logger: {
-    error(code, ...message) {
-      console.log(code, message)
-    },
-    warn(code, ...message) {
-      console.log(code, message)
-    },
-    debug(code, ...message) {
-      console.log(code, message)
-    },
-  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
     }),
     GitHubProvider({
-    clientId: process.env.GITHUB_ID,
-    clientSecret: process.env.GITHUB_SECRET
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET
     }),
     EmailProvider({
       server: {
@@ -57,48 +44,78 @@ export const authOptions = {
       },
       from: process.env.EMAIL_FROM,
     }),
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email }
+          });
+          if (user && await bcrypt.compare(credentials.password, user.password)) {
+            return user;
+          }
+          return null;
+        } catch (error) {
+          console.error("Error in authorize function:", error);
+          return null;
+        }
+      }
+    }),
   ],
-  
   database: process.env.DATABASE_URL,
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    jwt: true,
+    strategy: "jwt",
   },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      try {
-        // Implement custom sign-in logic here if needed
-        return true;
-      } catch (error) {
-        console.error("Error during sign-in:", error);
-        return false;
+    async jwt({ token, user, account }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
       }
+      return token;
     },
-    async session({ session, user }) {
-      // Add user ID to the session
-      if (!user.licenseKey) {
-        const licenseKey = generateLicenseKey();
-        const subscriptionExpiryDate = addDays(new Date(), 3);
-
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { licenseKey, subscriptionExpiryDate },
+    async session({ session, token }) {
+      try {
+        const user = await prisma.user.findUnique({
+          where: { id: token.id },
         });
-        user.licenseKey = licenseKey;
-        user.subscriptionExpiryDate = subscriptionExpiryDate;
+
+        if (!user.licenseKey) {
+          const licenseKey = generateLicenseKey();
+          const subscriptionExpiryDate = addDays(new Date(), 3);
+
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { licenseKey, subscriptionExpiryDate },
+          });
+          user.licenseKey = licenseKey;
+          user.subscriptionExpiryDate = subscriptionExpiryDate;
+        }
+
+        session.user = {
+          ...session.user,
+          id: token.id,
+          subscriptionId: user.subscriptionId,
+          subscriptionStatus: user.subscriptionStatus,
+          subscriptionExpiryDate: user.subscriptionExpiryDate,
+          licenseKey: user.licenseKey,
+        };
+
+        return session;
+      } catch (error) {
+        console.error("Error in session callback:", error);
+        return session;
       }
-      session.user.subscriptionId = user.subscriptionId
-      session.user.subscriptionStatus = user.subscriptionStatus;
-      session.user.subscriptionExpiryDate = user.subscriptionExpiryDate;
-      session.user.licenseKey = user.licenseKey;
-      session.userId = user.id;
-      return session;
     },
   },
   events: {
     async createUser({ user }) {
       // Custom logic after user creation (e.g., sending welcome email)
-      
     },
   },
   pages: {
@@ -106,11 +123,5 @@ export const authOptions = {
     error: '/auth/error',
   },
 };
-
-// Error handling for database connection
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  // Handle the error or exit the process
-});
 
 export default NextAuth(authOptions);

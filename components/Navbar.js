@@ -14,6 +14,9 @@ const Navbar = () => {
           <Link href="/" className="hover:text-gray-300 transition duration-300">
             Home
           </Link>
+          <Link href="/get-started" className="hover:text-gray-300 transition duration-300">
+            Get Started
+          </Link>
           {session ? (
             <>
               <Link href="https://github.com/georgemg100/Anthill-Coder" className="hover:text-gray-300 transition duration-300">
@@ -36,8 +39,7 @@ const Navbar = () => {
             <Link href="/" className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded transition duration-300">
               Sign In
             </Link>
-          )
-          }
+          )}
         </div>
       </div>
     </nav>

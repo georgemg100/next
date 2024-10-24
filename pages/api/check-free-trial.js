@@ -1,57 +1,30 @@
-import { getSession } from 'next-auth/react';
-import prisma from '../../lib/prisma';
+import prisma from '../../lib/prisma'
 
+// Simple endpoint to check if free trial/use is available
+// Does not require authentication
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ message: 'Method not allowed' })
   }
 
   try {
-    const session = await getSession({ req });
-    if (!session) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
+    // Get count of users with active trials
+    // const activeTrialCount = await prisma.user.count({
+    //   where: {
+    //     trial: {
+    //       active: true
+    //     }
+    //   }
+    // })
 
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-      select: { subscriptionStatus: true, subscriptionExpiryDate: true },
-    });
+    // Check if below maximum allowed trials (e.g. 100)
+    const MAX_CONCURRENT_TRIALS = 100
+    const isFreeUseAvailable = true//activeTrialCount < MAX_CONCURRENT_TRIALS
 
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    const currentDate = new Date();
-    const isFreeTrial = user.subscriptionStatus === 'inactive' && 
-                        user.subscriptionExpiryDate && 
-                        currentDate < new Date(user.subscriptionExpiryDate);
-    const isExpired = currentDate > new Date(user.subscriptionExpiryDate);
-    const expiresIn = getDaysBetweenDates(new Date(), new Date(user.subscriptionExpiryDate))
-
-    const isSubscribed = user.subscriptionStatus === 'active' &&
-                        currentDate < new Date(user.subscriptionExpiryDate);
-
-    if(isFreeTrial) {
-      res.status(200).json({ status: "Free Trial", expiresIn: 'Expires in ' + expiresIn + " Days"});
-    } else if(isExpired) {
-      res.status(200).json({ status: "Expired", expiresIn: "" })
-    } else if(isSubscribed) {
-      res.status(200).json({ status: "Subscribed", expiresIn: "" })
-    }
+    // Return simple boolean response
+    return res.status(200).json({ available: isFreeUseAvailable })
   } catch (error) {
-    console.error('Error checking free trial status:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error checking free trial availability:', error)
+    return res.status(500).json({ message: 'Error checking free trial availability' })
   }
-}
-
-function getDaysBetweenDates(date1, date2) {
-  // Convert both dates to milliseconds
-  const date1Ms = date1.getTime();
-  const date2Ms = date2.getTime();
-
-  // Calculate the difference in milliseconds
-  const differenceMs = Math.abs(date2Ms - date1Ms);
-
-  // Convert the difference to days
-  return Math.floor(differenceMs / (1000 * 60 * 60 * 24));
 }
