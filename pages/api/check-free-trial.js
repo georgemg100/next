@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
     // Check if below maximum allowed trials (e.g. 100)
     const MAX_CONCURRENT_TRIALS = 100
-    const isFreeUseAvailable = false//activeTrialCount < MAX_CONCURRENT_TRIALS
+    const isFreeUseAvailable = true//activeTrialCount < MAX_CONCURRENT_TRIALS
 
     // Return simple boolean response
     if(isFreeUseAvailable) {
