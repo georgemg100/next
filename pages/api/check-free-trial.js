@@ -22,7 +22,12 @@ export default async function handler(req, res) {
     const isFreeUseAvailable = true//activeTrialCount < MAX_CONCURRENT_TRIALS
 
     // Return simple boolean response
-    return res.status(200).json({ available: isFreeUseAvailable })
+    if(isFreeUseAvailable) {
+      return res.status(200).json({ available: isFreeUseAvailable })
+    } else {
+      return res.status(200).json({ available: isFreeUseAvailable, message: "Please update your npm package to continue use" })
+    }
+    
   } catch (error) {
     console.error('Error checking free trial availability:', error)
     return res.status(500).json({ message: 'Error checking free trial availability' })
