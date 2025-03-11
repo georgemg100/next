@@ -12,13 +12,13 @@ const Layout = ({ children }) => {
     if (status === 'loading') return;
 
     if (!session) {
-      setShowBanner(true);
-      setBannerMessage('Sign up to access all features!');
-      setBannerAction('Sign Up');
+      setShowBanner(false);
+      //setBannerMessage('Sign up to access all features!');
+      //setBannerAction('Sign Up');
     } else if (session && !session.user.isSubscribed) {
-      setShowBanner(true);
-      setBannerMessage('Upgrade to premium for full access!');
-      setBannerAction('Subscribe');
+      setShowBanner(false);
+      //setBannerMessage('Upgrade to premium for full access!');
+      //setBannerAction('Subscribe');
     } else {
       setShowBanner(false);
     }
@@ -47,13 +47,13 @@ const Layout = ({ children }) => {
           </button>
         </div>
       )}
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {children}
       </main>
       <footer className="bg-gray-800 text-white py-4">
         <div className="container mx-auto text-center">
-          © 2024 Anthill Coder. All rights reserved.
+          © 2025 MobileUse. All rights reserved.
         </div>
       </footer>
     </div>

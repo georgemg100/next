@@ -11,18 +11,15 @@ export default function Home() {
   return (
     <Layout>
       <Head>
-        <title>Anthill Coder - Home</title>
+        <title>MobileUse - Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       {!session && (
         <div className="hero-section bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-20">
           <div className="hero-content max-w-4xl mx-auto text-center px-4">
-            <h1 className="hero-title text-4xl md:text-5xl font-bold mb-6">Welcome to Anthill Coder</h1>
-            <p className="hero-subtitle text-xl md:text-2xl mb-8">Empowering developers with cutting-edge tools and resources</p>
-            <Link href="/get-started" className="cta-button bg-white text-blue-600 font-semibold py-3 px-8 rounded-full hover:bg-blue-100 transition duration-300">
-              Get Started
-            </Link>
+            <h1 className="hero-title text-4xl md:text-5xl font-bold mb-6">Welcome to MobileUse</h1>
+            <p className="hero-subtitle text-xl md:text-2xl mb-8">Coming to Android Soon</p>
           </div>
         </div>
       )}
@@ -33,19 +30,20 @@ export default function Home() {
         ) : session ? (
           <div>
             <p className="mb-4">Welcome, {session.user.email}!</p>
-            <Link href="/profile" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            {/* <Link href="/profile" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               View Profile
-            </Link>
+            </Link> */}
           </div>
         ) : (
           <div>
-            <p className="mb-4">Please sign in to access your account.</p>
-            <LoginButtons />
+            {/* <p className="mb-4">Please sign in to access your account.</p> */}
+            {/* <LoginButtons /> */}
           </div>
         )}
+        <a href='/privacy_policy'>privacy policy</a>
       </div>
 
-      {!session && (
+      {/* {!session && (
         <div className="feature-section py-16 bg-gray-50">
           <div className="feature-grid max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
             <div className="feature-card bg-white p-6 rounded-lg shadow-md">
@@ -65,7 +63,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </Layout>
   );
 }

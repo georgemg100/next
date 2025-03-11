@@ -10,7 +10,7 @@ const SubscriptionPrompt = ({ isAuthenticated, isSubscribed }) => {
   return (
     <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 my-4 rounded-r shadow-md" role="alert">
       <p className="font-bold text-lg mb-2">
-        {isAuthenticated ? 'Upgrade Your Experience' : 'Join Anthill Coder'}
+        {isAuthenticated ? 'Upgrade Your Experience' : 'Join MobileUse'}
       </p>
       <p className="mb-4">
         {isAuthenticated

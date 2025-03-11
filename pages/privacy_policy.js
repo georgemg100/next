@@ -68,9 +68,9 @@ export default function PrivacyPolicy() {
 
     <h2>Contact Us</h2>
     <p>If you have any questions about this Privacy Policy, please contact us at:</p>
-    <p>Email: privacy@appdomain.com</p>
+    <p>Email: mobileuseemail100@gmail.com</p>
         
-          </div>
+    </div>
         
       </div>
     </Layout>
