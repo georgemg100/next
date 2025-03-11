@@ -67,7 +67,7 @@ export default function PrivacyPolicy() {
     <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date. You are advised to review this Privacy Policy periodically for any changes.</p>
 
     <h2>Contact Us</h2>
-    <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+    <p>If you have any questions about this Privacy Policy or for account deletions, please contact us at:</p>
     <p>Email: mobileuseemail100@gmail.com</p>
         
     </div>
