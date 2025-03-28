@@ -11,7 +11,8 @@ export default function Home() {
   return (
     <Layout>
       <Head>
-        <title>MobileUse - Home</title>
+        <title>MobileUse - Autonomous Android Assistant</title>
+        <meta name="description" content="MobileUse - AI-powered autonomous assistant for Android that boosts your social media engagement and SEO with advanced reasoning capabilities." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -19,51 +20,41 @@ export default function Home() {
         <div className="hero-section bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-20">
           <div className="hero-content max-w-4xl mx-auto text-center px-4">
             <h1 className="hero-title text-4xl md:text-5xl font-bold mb-6">Welcome to MobileUse</h1>
-            <p className="hero-subtitle text-xl md:text-2xl mb-8">Coming to Android Soon</p>
+            <p className="hero-subtitle text-xl md:text-2xl mb-8">The Autonomous AI Assistant for Your Android Device</p>
           </div>
         </div>
       )}
 
-      <div className="text-center mt-8">
-        {loading ? (
-          <div>Loading...</div>
-        ) : session ? (
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
           <div>
-            <p className="mb-4">Welcome, {session.user.email}!</p>
-            {/* <Link href="/profile" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              View Profile
-            </Link> */}
+            <h2 className="text-3xl font-bold mb-6 text-gray-800">Revolutionize Your Mobile Experience</h2>
+            <p className="text-lg text-gray-600 mb-4">
+              MobileUse is an advanced autonomous AI agent that takes control of your Android device to execute tasks on your behalf. Using accessibility services and cutting-edge AI reasoning with 1024 tokens budgeted for thinking before every action, MobileUse delivers unparalleled automation.
+            </p>
+            <p className="text-lg text-gray-600 mb-6">
+              Whether you're managing social media accounts, optimizing for SEO, or handling repetitive tasks, MobileUse works intelligently to boost your productivity and digital presence.
+            </p>
           </div>
-        ) : (
-          <div>
-            {/* <p className="mb-4">Please sign in to access your account.</p> */}
-            {/* <LoginButtons /> */}
-          </div>
-        )}
-        <a href='/privacy_policy'>privacy policy</a>
-      </div>
-
-      {/* {!session && (
-        <div className="feature-section py-16 bg-gray-50">
-          <div className="feature-grid max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-            <div className="feature-card bg-white p-6 rounded-lg shadow-md">
-              <div className="feature-icon text-3xl text-blue-500 mb-4">🚀</div>
-              <h3 className="feature-title text-xl font-semibold mb-2">Boost Productivity</h3>
-              <p className="feature-description text-gray-600">Access powerful tools to streamline your development process.</p>
-            </div>
-            <div className="feature-card bg-white p-6 rounded-lg shadow-md">
-              <div className="feature-icon text-3xl text-blue-500 mb-4">🌐</div>
-              <h3 className="feature-title text-xl font-semibold mb-2">Stay Connected</h3>
-              <p className="feature-description text-gray-600">Join a community of passionate developers and share knowledge.</p>
-            </div>
-            <div className="feature-card bg-white p-6 rounded-lg shadow-md">
-              <div className="feature-icon text-3xl text-blue-500 mb-4">📚</div>
-              <h3 className="feature-title text-xl font-semibold mb-2">Continuous Learning</h3>
-              <p className="feature-description text-gray-600">Access a wealth of resources to keep your skills sharp.</p>
-            </div>
+          <div className="rounded-xl overflow-hidden shadow-xl">
+            <iframe 
+              width="100%" 
+              height="315"
+              src="https://www.youtube.com/embed/Fjht08Anu98" 
+              title="MobileUse Demo"
+              frameBorder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowFullScreen>
+            </iframe>
           </div>
         </div>
-      )} */}
+      </div>
+
+      <div className="text-center mt-8 pb-8">
+        <div className="mt-8">
+          <a href='/privacy_policy' className="text-blue-500 hover:text-blue-700">Privacy Policy</a>
+        </div>
+      </div>
     </Layout>
   );
 }
