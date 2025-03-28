@@ -49,9 +49,9 @@ export default function Home() {
                   Get Mobile App
                 </button>
               )}
-              <a href="/learn-more" className="flex items-center justify-center border-2 border-white text-white hover:bg-white hover:text-[#2C3E50] px-8 py-3 rounded-md font-medium text-lg transition duration-300">
+              {/* <a href="/learn-more" className="flex items-center justify-center border-2 border-white text-white hover:bg-white hover:text-[#2C3E50] px-8 py-3 rounded-md font-medium text-lg transition duration-300">
                 Learn More
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
@@ -164,10 +164,10 @@ export default function Home() {
             <div className="text-center mb-6">
               <div className="mx-auto w-48 bg-gray-200 mb-4 flex items-center justify-center">
                 {/* Sample QR code placeholder - replace with actual QR code */}
-                <img 
-                  src="frame.png"
+                <img
+                  src="qr-code-mobileuse.svg"
                   alt="QR Code"
-                  className="w-40"
+                  className="w-48"
                 />
               </div>
               <p className="text-gray-700 mb-2">Scan this QR code with your mobile device to download the MobileUse APK</p>

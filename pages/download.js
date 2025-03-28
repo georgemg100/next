@@ -37,7 +37,7 @@ export default function Download() {
 
   const handleDownloadClick = () => {
     // Start the download
-    window.location.href = '/download/mobileuse.apk';
+    window.location.href = '/download/app-release.apk';
     // Show download started message
     setShowDownloadStarted(true);
   };
