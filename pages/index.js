@@ -94,9 +94,9 @@ export default function Home() {
             <p className="text-lg text-gray-600 mb-8">
               Whether you're managing social media accounts, optimizing for SEO, or handling repetitive tasks, MobileUse works intelligently to boost your productivity and digital presence.
             </p>
-            <button className="bg-[#FF9800] text-white hover:bg-opacity-90 px-6 py-2 rounded-md font-medium shadow-md transition duration-300">
+            {/* <button className="bg-[#FF9800] text-white hover:bg-opacity-90 px-6 py-2 rounded-md font-medium shadow-md transition duration-300">
               Learn More
-            </button>
+            </button> */}
           </div>
           <div className="rounded-xl overflow-hidden shadow-xl">
             <iframe 

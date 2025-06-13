@@ -21,9 +21,9 @@ const GetStarted = () => {
           <p className="mb-4">
             If you encounter any issues or have questions, please don't hesitate to reach out to our support team. We're here to ensure you have a smooth experience with MobileUse.
           </p>
-          <a href="/learn-more" className="text-blue-600 hover:text-blue-800 transition duration-300">
+          {/* <a href="/learn-more" className="text-blue-600 hover:text-blue-800 transition duration-300">
             Learn more about MobileUse's features
-          </a>
+          </a> */}
         </div>
       </div>
     </Layout>
