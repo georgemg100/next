@@ -109,9 +109,10 @@ body {
   background: var(--gradient-dark);
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
+  padding: 4rem 0;
 }
 
 .hero-modern::before {
@@ -133,7 +134,7 @@ body {
 }
 
 .hero-title-modern {
-  @apply text-6xl md:text-8xl font-black mb-8;
+  @apply text-5xl md:text-6xl font-black mb-4;
   background: linear-gradient(135deg, #FF9800 0%, #fff 50%, #FF9800 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -142,7 +143,7 @@ body {
 }
 
 .hero-subtitle-modern {
-  @apply text-2xl md:text-3xl mb-12 text-gray-300 font-light;
+  @apply text-xl md:text-2xl mb-6 text-gray-300 font-light;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 

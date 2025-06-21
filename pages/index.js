@@ -28,10 +28,10 @@ export default function Home() {
           <div className="hero-content-modern">
             <h1 className="hero-title-modern">MobileUse</h1>
             <p className="hero-subtitle-modern">The Autonomous AI Assistant for Your Android Device</p>
-            <p className="text-lg md:text-xl mb-12 text-gray-400 max-w-4xl mx-auto leading-relaxed">
-              Experience the future of mobile automation with advanced AI reasoning, 1024 tokens budgeted for thinking before every action
+            <p className="text-lg md:text-xl mb-8 text-gray-400 max-w-3xl mx-auto leading-relaxed">
+              Experience the future of mobile automation with advanced AI reasoning
             </p>
-            <div className="flex flex-col sm:flex-row justify-center space-y-6 sm:space-y-0 sm:space-x-6 mt-12">
+            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mt-8">
               {isMobile ? (
                 <Link href="/download" className="btn-gradient group">
                   <svg className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -50,20 +50,20 @@ export default function Home() {
                   Get Mobile App
                 </button>
               )}
-              <button className="btn-accent group">
+              {/* <button className="btn-accent group">
                 <svg className="w-6 h-6 mr-3 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 Watch Demo
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto px-6 py-32">
-        <div className="mb-32">
-          <div className="text-center mb-20">
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="mb-20">
+          <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-6">
               <span className="bg-gradient-to-r from-orange-400 via-white to-orange-400 bg-clip-text text-transparent">
                 App Features in Action
@@ -217,7 +217,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="text-center mb-20">
+        {/* <div className="text-center mb-20">
           <h2 className="text-5xl md:text-6xl font-black mb-6">
             <span className="bg-gradient-to-r from-orange-400 via-white to-orange-400 bg-clip-text text-transparent">
               Why Choose MobileUse?
@@ -245,7 +245,7 @@ export default function Home() {
             <h3 className="feature-title-modern">Precision Control</h3>
             <p className="text-gray-300 text-lg leading-relaxed">Let MobileUse handle repetitive tasks with surgical precision while you focus on what matters most.</p>
           </div>
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
           <div className="order-2 lg:order-1">
@@ -278,7 +278,7 @@ export default function Home() {
               <iframe 
                 width="100%" 
                 height="400"
-                src="http://youtube.com/watch?v=_hdaFQLeOVw" 
+                src="https://www.youtube.com/embed/_hdaFQLeOVw" 
                 title="MobileUse Demo"
                 frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -318,12 +318,12 @@ export default function Home() {
                 Get Mobile App
               </button>
             )}
-            <button className="btn-secondary group">
+            {/* <button className="btn-secondary group">
               <svg className="w-6 h-6 mr-3 group-hover:rotate-45 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
               </svg>
               Try Demo
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
