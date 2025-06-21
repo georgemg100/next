@@ -93,9 +93,9 @@ export default function Home() {
                   <p className="text-xs text-gray-500 mt-2">Main Interface</p> */}
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">Smart Control Panel</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Ask AI to Do Anything</h3>
               <p className="text-gray-300 text-sm leading-relaxed">
-                Intuitive dashboard for managing AI automation tasks and monitoring device activity in real-time.
+                Simply tell MobileUse what you want accomplished and watch as AI takes control of your device to complete complex tasks automatically.
               </p>
             </div>
 
@@ -116,9 +116,9 @@ export default function Home() {
                   <p className="text-xs text-gray-500 mt-2">AI Reasoning</p> */}
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">AI Reasoning </h3>
+              <h3 className="text-xl font-bold text-white mb-3">Track Every Action</h3>
               <p className="text-gray-300 text-sm leading-relaxed">
-                Prompt Mobile-Use to perform any task. Seamless automation of social media posting, SEO optimization, and repetitive mobile tasks.
+                See exactly what the AI did to complete your task with detailed action history and transparent reasoning at every step.
               </p>
             </div>
 
@@ -139,9 +139,9 @@ export default function Home() {
                   <p className="text-xs text-gray-500 mt-2">Task Automation</p> */}
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">Task Automation</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Perfect Your Workflows</h3>
               <p className="text-gray-300 text-sm leading-relaxed">
-                Once task completed view the action history and AI’s thought process
+                Edit, customize, and fine-tune action sequences to create the perfect automation that works exactly how you need it.
               </p>
             </div>
 
@@ -162,10 +162,9 @@ export default function Home() {
                   <p className="text-xs text-gray-500 mt-2">Analytics Dashboard</p> */}
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">Performance Analytics</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Choose Your Automation</h3>
               <p className="text-gray-300 text-sm leading-relaxed">
-                add, edit or delete actions and re-execute them as a simple automation
-                Build and customize automation workflows tailored to your specific needs and preferences.
+                Select from pre-built automations or create custom workflows tailored to your specific needs and preferences.
               </p>
             </div>
 
@@ -186,9 +185,9 @@ export default function Home() {
                   <p className="text-xs text-gray-500 mt-2">Security Settings</p> */}
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">Security & Privacy</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Set It and Forget It</h3>
               <p className="text-gray-300 text-sm leading-relaxed">
-                Loop actions infinitely for repeated work
+                Loop actions continuously for repetitive tasks - post to social media, check emails, or handle routine work while you sleep.
               </p>
             </div>
 
@@ -210,10 +209,9 @@ export default function Home() {
                   <p className="text-xs text-gray-500 mt-2">Customization</p> */}
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">Custom Workflows</h3>
+              <h3 className="text-xl font-bold text-white mb-3">Smart Dynamic Actions</h3>
               <p className="text-gray-300 text-sm leading-relaxed">
-                Add a AI guided task to your automation sequence to handle dynamic states
-                Clicking on tiles
+                Add AI-guided tasks that adapt to changing conditions, making your automations intelligent enough to handle unexpected scenarios.
               </p>
             </div>
           </div>
